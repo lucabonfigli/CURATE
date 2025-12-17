@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curate - Intentional Creative Expression</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=VT323&display=swap');
+        @import url("https://use.typekit.net/wru7doh.css");
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Akkurat', 'Helvetica Neue', 'Arial', sans-serif;
+            background: #d4d0c8;
+            color: #2a2a2a;
+            line-height: 1.6;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, #d8d4cc 0%, #d4d0c8 100%);
+            position: relative;
+        }
+
+        /* Logo in corner */
+        .logo {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            width: 60px;
+            height: 60px;
+            z-index: 1000;
+        }
+
+        .logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero h1 {
+            font-family: 'Akkurat', 'Helvetica Neue', sans-serif;
+            font-size: 7rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            text-transform: uppercase;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #ff6b35;
+            margin-bottom: 3rem;
+            text-align: center;
+            max-width: 600px;
+        }
+
+        /* Analog Control Demo */
+        .control-demo {
+            background: #c8c4bc;
+            border: none;
+            border-radius: 0;
+            padding: 3rem;
+            box-shadow: 
+                0 4px 0 0 rgba(0, 0, 0, 0.2),
+                0 6px 12px rgba(0, 0, 0, 0.15),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.1),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            margin-top: 2rem;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .demo-title {
+            font-family: 'Akkurat', 'Helvetica Neue', sans-serif;
+            color: #1a1a1a;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .dial-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .dial-wrapper {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dial-labels {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            bottom: 10px;
+            padding: 0 5px;
+            font-family: 'Courier New', 'Courier', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: rgba(26, 26, 26, 0.6);
+            pointer-events: none;
+        }
+
+        .rating-text {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-family: 'VT323', 'Courier New', monospace;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .dial-ticks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .tick {
+            position: absolute;
+            width: 2px;
+            height: 12px;
+            background: rgba(26, 26, 26, 0.3);
+            top: 0;
+            left: 50%;
+            transform-origin: 50% 110px;
+            margin-left: -1px;
+        }
+
+        .tick.major {
+            height: 16px;
+            width: 2px;
+            background: rgba(26, 26, 26, 0.4);
+        }
+
+        .battery-display {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            width: 200px;
+            z-index: 999;
+        }
+
+        .dial {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #d8d4cc 0%, #c4c0b8 100%);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.1s;
+            box-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.15),
+                inset 0 1px 3px rgba(0, 0, 0, 0.2),
+                inset 0 -1px 2px rgba(255, 255, 255, 0.4);
+        }
+
+        .dial:active {
+            transform: scale(0.98);
+            box-shadow: 
+                0 1px 2px rgba(0, 0, 0, 0.15),
+                inset 0 2px 4px rgba(0, 0, 0, 0.25),
+                inset 0 -1px 2px rgba(255, 255, 255, 0.3);
+        }
+
+        .dial::before {
+            display: none;
+        }
+
+        .dial:active {
+            transform: scale(0.98);
+        }
+
+        .dial-indicator {
+            position: absolute;
+            width: 3px;
+            height: 35px;
+            background: #ff9d5c;
+            top: 18px;
+            left: 50%;
+            transform-origin: center 52px;
+            transform: translateX(-50%) rotate(0deg);
+            border-radius: 2px;
+            transition: transform 0.3s ease-out;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .dial-center {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #e0dcd4 0%, #c8c4bc 100%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 
+                0 3px 6px rgba(0, 0, 0, 0.2),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.15),
+                inset 0 1px 2px rgba(255, 255, 255, 0.5);
+        }
+
+        .battery-label {
+            color: #666;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .battery-bar {
+            width: 100%;
+            height: 30px;
+            background: transparent;
+            border-radius: 0;
+            overflow: hidden;
+            border: none;
+            position: relative;
+            display: flex;
+            gap: 3px;
+            align-items: flex-end;
+        }
+
+        .battery-bar::before {
+            display: none;
+        }
+
+        .battery-segment {
+            flex: 1;
+            height: 100%;
+            background: #ff6b35;
+            border-radius: 3px;
+            transition: opacity 0.3s ease;
+        }
+
+        .battery-segment.empty {
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .battery-fill {
+            display: none;
+        }
+
+        .battery-percentage {
+            position: absolute;
+            top: -20px;
+            right: 0;
+            color: #666;
+            font-weight: 600;
+            font-size: 0.7rem;
+            z-index: 2;
+        }
+
+        /* Philosophy Section */
+        .philosophy {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .philosophy h2 {
+            font-family: 'Akkurat', 'Helvetica Neue', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 3rem;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .principles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .principle-card {
+            background: #c8c4bc;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid rgba(26, 26, 26, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .principle-card:hover {
+            background: #ff6b35;
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .principle-card:hover h3,
+        .principle-card:hover p {
+            color: white;
+        }
+
+        .principle-card h3 {
+            font-family: 'Akkurat', 'Helvetica Neue', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            text-transform: uppercase;
+        }
+
+        .principle-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Mock Interface Section */
+        .mock-interface {
+            padding: 6rem 2rem;
+            background: #2a2a2a;
+            color: #f5f5f0;
+        }
+
+        .mock-interface h2 {
+            font-family: 'Akkurat', 'Helvetica Neue', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 3rem;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .phone-mockup {
+            max-width: 375px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 40px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border: 3px solid #1a1a1a;
+        }
+
+        .phone-screen {
+            background: #d4d0c8;
+            border-radius: 30px;
+            padding: 2rem 1.5rem;
+            min-height: 600px;
+            color: #2a2a2a;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-bio {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .analog-controls {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(42, 42, 42, 0.05);
+            border-radius: 8px;
+        }
+
+        .control-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #c8c4bc;
+            border: 2px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 700;
+        }
+
+        .control-button:active {
+            transform: translateY(2px);
+            background: #ff6b35;
+            color: white;
+            border-color: #ff6b35;
+        }
+
+        .control-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.5rem;
+            text-align: center;
+            color: #666;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Community Vision */
+        .community {
+            padding: 6rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .community h2 {
+            font-family: 'Akkurat', 'Helvetica Neue', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .community p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .quote {
+            font-size: 1.8rem;
+            font-style: italic;
+            font-weight: 300;
+            color: #1a1a1a;
+            margin: 3rem 0;
+            padding: 2rem;
+            border-left: 4px solid #ff6b35;
+            text-align: left;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            background: #2a2a2a;
+            color: #999;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        /* Navigation Arrows */
+        .nav-arrows {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-arrow {
+            width: 50px;
+            height: 50px;
+            background: #c8c4bc;
+            border: 2px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .nav-arrow:hover {
+            background: #ff6b35;
+            color: white;
+            border-color: #ff6b35;
+        }
+
+        .nav-arrow:active {
+            transform: scale(0.95);
+        }
+
+        .nav-arrow.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo -->
+    <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="90" fill="none" stroke="#1a1a1a" stroke-width="2"
+                    stroke-dasharray="452 113"
+                    transform="rotate(36 100 100)"/>
+            <circle cx="100" cy="100" r="15" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="nav-arrows">
+        <div class="nav-arrow" id="navUp">▲</div>
+        <div class="nav-arrow" id="navDown">▼</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Curate</h1>
+        <p class="tagline">Social media that respects your time, attention, and creativity</p>
+        
+        <div class="control-demo">
+            <div class="dial-container">
+                <div class="dial-wrapper">
+                    <div class="dial-ticks" id="dialTicks"></div>
+                    <div class="dial-labels">
+                        <span>0</span>
+                        <span>100</span>
+                    </div>
+                    <div class="dial" id="dial">
+                        <div class="dial-indicator" id="dialIndicator"></div>
+                        <div class="dial-center"></div>
+                    </div>
+                </div>
+                <div class="rating-text">Rate your social media satisfaction</div>
+            </div>
+        </div>
+        
+        <div class="battery-display">
+            <div class="battery-label">Daily Battery Life</div>
+            <div class="battery-bar" id="batteryBar">
+                <div class="battery-percentage" id="batteryPercentage">75%</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section class="philosophy">
+        <h2>Built on Intention, Not Addiction</h2>
+        
+        <div class="principles">
+            <div class="principle-card">
+                <h3>Finite Resources</h3>
+                <p>Like analog equipment, Curate has limits. A daily battery life ensures every interaction is deliberate and meaningful.</p>
+            </div>
+            
+            <div class="principle-card">
+                <h3>No AI, Pure Human</h3>
+                <p>No algorithms, no generation, no automation. Every piece of content is authentically created and curated by real people.</p>
+            </div>
+            
+            <div class="principle-card">
+                <h3>Personal Expression</h3>
+                <p>No group photos. Share what you're into—art, objects, scenery, books—not social performance.</p>
+            </div>
+            
+            <div class="principle-card">
+                <h3>Analog Aesthetic</h3>
+                <p>Inspired by vintage audio equipment and Rick Rubin's minimalism. Beautiful, tactile, and timeless design.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mock Interface -->
+    <section class="mock-interface">
+        <div class="phone-mockup">
+            <div class="phone-screen">
+                <div class="profile-header">
+                    <div class="profile-name">Your Creative Space</div>
+                    <div class="profile-bio">Individual artistic expression</div>
+                </div>
+                
+                <div class="analog-controls">
+                    <div>
+                        <div class="control-button">◀</div>
+                        <div class="control-label">Prev</div>
+                    </div>
+                    <div>
+                        <div class="control-button">■</div>
+                        <div class="control-label">Pause</div>
+                    </div>
+                    <div>
+                        <div class="control-button">▶</div>
+                        <div class="control-label">Next</div>
+                    </div>
+                </div>
+                
+                <div class="gallery-grid">
+                    <div class="gallery-item" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                    <div class="gallery-item" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                    <div class="gallery-item" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+                    <div class="gallery-item" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
+                    <div class="gallery-item" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);"></div>
+                    <div class="gallery-item" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);"></div>
+                </div>
+                
+                <p style="text-align: center; margin-top: 2rem; color: #999; font-size: 0.85rem;">
+                    Navigate with intention.<br>No infinite scroll.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Vision -->
+    <section class="community">
+        <h2>A Community of Intentional Creators</h2>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Curate — Proof of Concept</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Inspired by analog audio heritage, Rick Rubin's minimalism, and Teenage Engineering's design philosophy</p>
+    </footer>
+
+    <script>
+        // Generate tick marks
+        const ticksContainer = document.getElementById('dialTicks');
+        const totalTicks = 31; // Total number of ticks
+        const startAngle = -140; // Start angle in degrees
+        const endAngle = 140; // End angle in degrees
+        const angleRange = endAngle - startAngle;
+        
+        for (let i = 0; i <= totalTicks; i++) {
+            const tick = document.createElement('div');
+            tick.className = i % 5 === 0 ? 'tick major' : 'tick';
+            const angle = startAngle + (angleRange * i / totalTicks);
+            tick.style.transform = `rotate(${angle}deg)`;
+            ticksContainer.appendChild(tick);
+        }
+
+        // Section Navigation
+        const sections = document.querySelectorAll('section');
+        let currentSection = 0;
+
+        function navigateToSection(index) {
+            if (index >= 0 && index < sections.length) {
+                sections[index].scrollIntoView({ behavior: 'smooth' });
+                currentSection = index;
+                updateArrows();
+            }
+        }
+
+        function updateArrows() {
+            const upArrow = document.getElementById('navUp');
+            const downArrow = document.getElementById('navDown');
+            
+            upArrow.classList.toggle('disabled', currentSection === 0);
+            downArrow.classList.toggle('disabled', currentSection === sections.length - 1);
+        }
+
+        // Arrow button clicks
+        document.getElementById('navUp').addEventListener('click', () => {
+            navigateToSection(currentSection - 1);
+        });
+
+        document.getElementById('navDown').addEventListener('click', () => {
+            navigateToSection(currentSection + 1);
+        });
+
+        // Keyboard arrow keys
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                navigateToSection(currentSection - 1);
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                navigateToSection(currentSection + 1);
+            }
+        });
+
+        // Update current section on scroll
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const scrollPosition = window.scrollY + window.innerHeight / 2;
+                
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        currentSection = index;
+                        updateArrows();
+                    }
+                });
+            }, 100);
+        });
+
+        // Initialize
+        updateArrows();
+
+        // Dial Interaction
+        const dial = document.getElementById('dial');
+        const dialIndicator = document.getElementById('dialIndicator');
+        let isDragging = false;
+        let currentRotation = 0;
+        const minRotation = -140; // Match start angle of tick marks
+        const maxRotation = 140;  // Match end angle of tick marks
+
+        dial.addEventListener('mousedown', (e) => {
+            isDragging = true;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const rect = dial.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
+                let degrees = angle * (180 / Math.PI) + 90;
+                
+                // Normalize to -180 to 180 range
+                if (degrees > 180) degrees -= 360;
+                if (degrees < -180) degrees += 360;
+                
+                // Constrain to min/max rotation
+                degrees = Math.max(minRotation, Math.min(maxRotation, degrees));
+                
+                currentRotation = degrees;
+                dialIndicator.style.transform = `translateX(-50%) rotate(${degrees}deg)`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Battery Simulation with segments
+        const batteryBar = document.getElementById('batteryBar');
+        const batteryPercentage = document.getElementById('batteryPercentage');
+        let battery = 75;
+        const totalSegments = 20;
+        
+        // Create battery segments
+        for (let i = 0; i < totalSegments; i++) {
+            const segment = document.createElement('div');
+            segment.className = 'battery-segment';
+            batteryBar.appendChild(segment);
+        }
+        
+        function updateBattery() {
+            const segments = document.querySelectorAll('.battery-segment');
+            const filledSegments = Math.round((battery / 100) * totalSegments);
+            
+            segments.forEach((segment, index) => {
+                if (index < filledSegments) {
+                    segment.classList.remove('empty');
+                    segment.style.background = '#ff6b35';
+                } else {
+                    segment.classList.add('empty');
+                }
+            });
+            
+            batteryPercentage.textContent = Math.round(battery) + '%';
+        }
+        
+        updateBattery();
+
+        setInterval(() => {
+            if (battery > 0) {
+                battery -= 1;
+                updateBattery();
+            }
+        }, 1500);
+
+        // Control Button Interactions
+        const controlButtons = document.querySelectorAll('.control-button');
+        controlButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                this.style.background = '#ff6b35';
+                this.style.color = 'white';
+                this.style.borderColor = '#ff6b35';
+                setTimeout(() => {
+                    this.style.background = '#c8c4bc';
+                    this.style.color = '#1a1a1a';
+                    this.style.borderColor = '#1a1a1a';
+                }, 100);
+            });
+        });
+
+        // Gallery Item Interactions
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const originalTransform = this.style.transform;
+                this.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    this.style.transform = originalTransform;
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>
