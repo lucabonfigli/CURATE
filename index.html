@@ -19,6 +19,35 @@
             background: #d4d0c8;
             color: #2a2a2a;
             line-height: 1.6;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px);
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 1;
         }
 
         /* Hero Section */
@@ -31,6 +60,7 @@
             padding: 4rem 2rem;
             background: linear-gradient(180deg, #d8d4cc 0%, #d4d0c8 100%);
             position: relative;
+            z-index: 2;
         }
 
         /* Logo in corner */
@@ -74,24 +104,13 @@
             border-radius: 0;
             padding: 3rem;
             box-shadow: 
-                0 4px 0 0 rgba(0, 0, 0, 0.2),
-                0 6px 12px rgba(0, 0, 0, 0.15),
-                inset 0 -2px 4px rgba(0, 0, 0, 0.1),
-                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+                inset -6px 6px 10px rgba(0, 0, 0, 0.25),
+                inset -3px 3px 6px rgba(0, 0, 0, 0.15),
+                inset 0 -2px 4px rgba(255, 255, 255, 0.2),
+                inset 0 2px 4px rgba(0, 0, 0, 0.15);
             margin-top: 2rem;
             max-width: 500px;
             width: 100%;
-        }
-
-        .demo-title {
-            font-family: 'Akkurat', 'Helvetica Neue', sans-serif;
-            color: #1a1a1a;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 2rem;
-            text-align: center;
         }
 
         .dial-container {
@@ -179,7 +198,8 @@
             cursor: pointer;
             transition: transform 0.1s;
             box-shadow: 
-                0 2px 4px rgba(0, 0, 0, 0.15),
+                -6px 6px 12px rgba(0, 0, 0, 0.25),
+                -3px 3px 6px rgba(0, 0, 0, 0.15),
                 inset 0 1px 3px rgba(0, 0, 0, 0.2),
                 inset 0 -1px 2px rgba(255, 255, 255, 0.4);
         }
@@ -187,17 +207,14 @@
         .dial:active {
             transform: scale(0.98);
             box-shadow: 
-                0 1px 2px rgba(0, 0, 0, 0.15),
+                -4px 4px 8px rgba(0, 0, 0, 0.25),
+                -2px 2px 4px rgba(0, 0, 0, 0.15),
                 inset 0 2px 4px rgba(0, 0, 0, 0.25),
                 inset 0 -1px 2px rgba(255, 255, 255, 0.3);
         }
 
         .dial::before {
             display: none;
-        }
-
-        .dial:active {
-            transform: scale(0.98);
         }
 
         .dial-indicator {
@@ -224,7 +241,8 @@
             left: 50%;
             transform: translate(-50%, -50%);
             box-shadow: 
-                0 3px 6px rgba(0, 0, 0, 0.2),
+                -4px 4px 8px rgba(0, 0, 0, 0.25),
+                -2px 2px 4px rgba(0, 0, 0, 0.15),
                 inset 0 -1px 2px rgba(0, 0, 0, 0.15),
                 inset 0 1px 2px rgba(255, 255, 255, 0.5);
         }
@@ -287,6 +305,8 @@
             padding: 6rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
         .philosophy h2 {
@@ -347,16 +367,8 @@
             padding: 6rem 2rem;
             background: #2a2a2a;
             color: #f5f5f0;
-        }
-
-        .mock-interface h2 {
-            font-family: 'Akkurat', 'Helvetica Neue', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            margin-bottom: 3rem;
-            text-align: center;
-            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
         }
 
         .phone-mockup {
@@ -457,33 +469,47 @@
             max-width: 800px;
             margin: 0 auto;
             text-align: center;
+            position: relative;
+            z-index: 2;
         }
 
         .community h2 {
             font-family: 'Akkurat', 'Helvetica Neue', sans-serif;
-            font-size: 3rem;
+            font-size: 2rem;
             font-weight: 700;
-            letter-spacing: -0.03em;
+            letter-spacing: 0.15em;
             margin-bottom: 2rem;
             text-transform: uppercase;
+            color: white;
+            background: linear-gradient(180deg, #ff7d4d 0%, #ff6b35 50%, #ff5a1f 100%);
+            padding: 1.5rem 6rem;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            box-shadow: 
+                -8px 8px 0 0 rgba(0, 0, 0, 0.15),
+                -12px 12px 20px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.1);
         }
 
-        .community p {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
+        .community h2:hover {
+            background: linear-gradient(180deg, #ff8a5e 0%, #ff7845 50%, #ff6730 100%);
+            box-shadow: 
+                -10px 10px 0 0 rgba(0, 0, 0, 0.15),
+                -15px 15px 25px rgba(0, 0, 0, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.1);
         }
 
-        .quote {
-            font-size: 1.8rem;
-            font-style: italic;
-            font-weight: 300;
-            color: #1a1a1a;
-            margin: 3rem 0;
-            padding: 2rem;
-            border-left: 4px solid #ff6b35;
-            text-align: left;
+        .community h2:active {
+            transform: translateY(2px) translateX(-2px);
+            box-shadow: 
+                -5px 5px 0 0 rgba(0, 0, 0, 0.15),
+                -8px 8px 15px rgba(0, 0, 0, 0.2),
+                inset 0 1px 2px rgba(0, 0, 0, 0.15);
         }
 
         /* Footer */
@@ -560,16 +586,12 @@
     <!-- Hero Section -->
     <section class="hero">
         <h1>Curate</h1>
-        <p class="tagline">Social media that respects your time, attention, and creativity</p>
+        <p class="tagline">Media that respects your time, attention, and creativity</p>
         
         <div class="control-demo">
             <div class="dial-container">
                 <div class="dial-wrapper">
                     <div class="dial-ticks" id="dialTicks"></div>
-                    <div class="dial-labels">
-                        <span>0</span>
-                        <span>100</span>
-                    </div>
                     <div class="dial" id="dial">
                         <div class="dial-indicator" id="dialIndicator"></div>
                         <div class="dial-center"></div>
@@ -656,21 +678,21 @@
 
     <!-- Community Vision -->
     <section class="community">
-        <h2>A Community of Intentional Creators</h2>
+        <h2>Intentional Creation</h2>
     </section>
 
     <!-- Footer -->
     <footer>
         <p>Curate — Proof of Concept</p>
-        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Inspired by analog audio heritage, Rick Rubin's minimalism, and Teenage Engineering's design philosophy</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">Inspired by analog audio heritage and creative minimalism</p>
     </footer>
 
     <script>
         // Generate tick marks
         const ticksContainer = document.getElementById('dialTicks');
-        const totalTicks = 31; // Total number of ticks
-        const startAngle = -140; // Start angle in degrees
-        const endAngle = 140; // End angle in degrees
+        const totalTicks = 31;
+        const startAngle = -140;
+        const endAngle = 140;
         const angleRange = endAngle - startAngle;
         
         for (let i = 0; i <= totalTicks; i++) {
@@ -701,7 +723,6 @@
             downArrow.classList.toggle('disabled', currentSection === sections.length - 1);
         }
 
-        // Arrow button clicks
         document.getElementById('navUp').addEventListener('click', () => {
             navigateToSection(currentSection - 1);
         });
@@ -710,7 +731,6 @@
             navigateToSection(currentSection + 1);
         });
 
-        // Keyboard arrow keys
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowUp') {
                 e.preventDefault();
@@ -721,7 +741,6 @@
             }
         });
 
-        // Update current section on scroll
         let scrollTimeout;
         window.addEventListener('scroll', () => {
             clearTimeout(scrollTimeout);
@@ -740,7 +759,6 @@
             }, 100);
         });
 
-        // Initialize
         updateArrows();
 
         // Dial Interaction
@@ -748,8 +766,8 @@
         const dialIndicator = document.getElementById('dialIndicator');
         let isDragging = false;
         let currentRotation = 0;
-        const minRotation = -140; // Match start angle of tick marks
-        const maxRotation = 140;  // Match end angle of tick marks
+        const minRotation = -140;
+        const maxRotation = 140;
 
         dial.addEventListener('mousedown', (e) => {
             isDragging = true;
@@ -764,11 +782,9 @@
                 const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
                 let degrees = angle * (180 / Math.PI) + 90;
                 
-                // Normalize to -180 to 180 range
                 if (degrees > 180) degrees -= 360;
                 if (degrees < -180) degrees += 360;
                 
-                // Constrain to min/max rotation
                 degrees = Math.max(minRotation, Math.min(maxRotation, degrees));
                 
                 currentRotation = degrees;
@@ -780,13 +796,12 @@
             isDragging = false;
         });
 
-        // Battery Simulation with segments
+        // Battery Simulation
         const batteryBar = document.getElementById('batteryBar');
         const batteryPercentage = document.getElementById('batteryPercentage');
         let battery = 75;
         const totalSegments = 20;
         
-        // Create battery segments
         for (let i = 0; i < totalSegments; i++) {
             const segment = document.createElement('div');
             segment.className = 'battery-segment';
